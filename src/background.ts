@@ -8,6 +8,31 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
+const express = require('express')
+const httpServer = express()
+httpServer.use(express.static('/Users/yongshi/Documents/kkcode/kkcode_live_game_client/bin'))
+const server = httpServer.listen(8081, () => {
+  const host = server.address().address
+  const port = server.address().port
+  console.log(server)
+  // 设置跨域访问
+  httpServer.all('*', (req: any, res: any, next: any) => {
+    // 设置允许跨域的域名，*代表允许任意域名跨域
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*')
+    // 允许的header类型
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+    // 跨域允许的请求方式
+    // res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    // 可以带cookies
+    // res.header("Access-Control-Allow-Credentials", true);
+    if (req.method === 'OPTIONS') {
+      res.sendStatus(200)
+    } else {
+      next()
+    }
+  })
+  console.log('资源服务器开启', host, port)
+})
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
