@@ -3,48 +3,38 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import httpServer from '@/common/electron/httpServer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
-const express = require('express')
-const httpServer = express()
-httpServer.use(express.static('/Users/yongshi/Documents/kkcode/kkcode_live_game_client/bin'))
-const server = httpServer.listen(8081, () => {
-  const host = server.address().address
-  const port = server.address().port
-  console.log(server)
-  // 设置跨域访问
-  httpServer.all('*', (req: any, res: any, next: any) => {
-    // 设置允许跨域的域名，*代表允许任意域名跨域
-    res.header('Access-Control-Allow-Origin', req.headers.origin || '*')
-    // 允许的header类型
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
-    // 跨域允许的请求方式
-    // res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    // 可以带cookies
-    // res.header("Access-Control-Allow-Credentials", true);
-    if (req.method === 'OPTIONS') {
-      res.sendStatus(200)
-    } else {
-      next()
-    }
-  })
-  console.log('资源服务器开启', host, port)
-})
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
-
+httpServer.createServer({
+  root: '/Users/yongshi/Documents/kkcode/designer/dist_electron/repository/game_build',
+  port: 9092
+})
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    title: 'Class Designer',
+    width: 1200,
+    height: 650,
+    minWidth: 1200,
+    minHeight: 650,
+    useContentSize: true,
+    // frame: false,
+    show: false,
+    center: true,
+    acceptFirstMouse: true,
+    // hasShadow: false,
+    // titleBarStyle: 'hidden',
     webPreferences: {
+      webSecurity: false,
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: (process.env
@@ -61,6 +51,12 @@ function createWindow () {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
+
+  win.on('ready-to-show', () => {
+    if (win !== null){
+      win.show()
+    }
+  })
 
   win.on('closed', () => {
     win = null
