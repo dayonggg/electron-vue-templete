@@ -4,6 +4,7 @@ import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import httpServer from '@/common/electron/httpServer'
+import fs from 'fs'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -14,8 +15,9 @@ let win: BrowserWindow | null
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
+console.log(app.getPath('userData'))
 httpServer.createServer({
-  root: '/Users/yongshi/Documents/kkcode/designer/dist_electron/repository/game_build',
+  root: app.getPath('userData'),
   port: 9092
 })
 function createWindow () {
@@ -87,7 +89,7 @@ app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
-      await installExtension(VUEJS_DEVTOOLS)
+      // await installExtension(VUEJS_DEVTOOLS)
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     }

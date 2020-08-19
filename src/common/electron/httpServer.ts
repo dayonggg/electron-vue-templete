@@ -6,7 +6,6 @@ export default {
   createServer(options: any) {
     httpServer.use(express.static(path.join(options.root)));
     const server = httpServer.listen(options.port, () => {
-      const host = server.address().address;
       const port = server.address().port;
       // console.log(server)
       // 设置跨域访问
@@ -28,7 +27,7 @@ export default {
           next();
         }
       });
-      console.log("资源服务器开启", host, port);
+      console.log("资源服务器开启", 'localhost', port);
     });
   }
 };
