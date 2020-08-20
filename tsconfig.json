@@ -6,11 +6,13 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
+    "experimentalDecorators": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "removeComments": true,
     "types": [
       "webpack-env"
     ],
@@ -35,5 +37,6 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "diagnostics": true
 }

@@ -3,14 +3,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
   name: 'test',
   components: {}
 })
-export default class DelConfirm extends Vue {
-  @Prop()
+export default class Test extends Vue {
   mounted () {
     console.log('yes')
   }
