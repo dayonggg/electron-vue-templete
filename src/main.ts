@@ -3,10 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import ViewUI from 'view-design'
-import '@/theme/index.less'
+// import 'view-design/dist/styles/iview.css'
+import '@/theme/components.less'
 
 Vue.config.productionTip = false
-Vue.use(ViewUI)
+Vue.use(ViewUI, {
+  size: 'small'
+})
 
 new Vue({
   router,
