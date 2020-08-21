@@ -1,13 +1,13 @@
 <template>
   <Card class="setting-card" :bordered="false" :dis-hover="true" :shadow="true">
     <p slot="title">
-      <Icon type="ios-film-outline"></Icon>
+      <Icon type="md-cog" />
       Setting
     </p>
     <Button type="primary" slot="extra" @click="next">Next</Button>
     <Layout class="fill">
       <Layout>
-        <Sider hide-trigger>
+        <Sider :width="160" hide-trigger>
           <Steps class="init-steps" :current="current" direction="vertical">
             <Step title="角色选择" content=""></Step>
             <Step title="环境配置" content="配置本地运行环境"></Step>
