@@ -1,9 +1,10 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import httpServer from '@/common/electron/httpServer'
+import { exec } from 'child_process'
 import fs from 'fs'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -111,3 +112,18 @@ if (isDevelopment) {
     })
   }
 }
+
+// Message Event
+ipcMain.on('git-version', (e) => {
+  try {
+    exec(`git --version`, (error, stdout) => {
+      if (error) {
+        e.sender.send('re-git-version', 'error')
+      } else {
+        e.sender.send('re-git-version', stdout)
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
