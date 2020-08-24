@@ -27,12 +27,13 @@ module.exports = {
   },
   pluginOptions: {
     electronBuilder: {
+      nodeIntegration: true,
       builderOptions: {
-        appId: 'com.kkcode.designer',
-        productName: 'designer', // 项目名，也是生成的安装文件名，即aDemo.exe
+        appId: 'com.kkcode.course',
+        productName: 'Course', // 项目名，也是生成的安装文件名，即aDemo.exe
         copyright: 'Copyright © 2020', // 版权信息
         directories: {
-          output: './dist_electron' // 输出文件路径
+          output: './build' // 输出文件路径
         },
         asar: false,
         win: {

@@ -9,13 +9,15 @@
       <Layout>
         <Sider :width="160" hide-trigger>
           <Steps class="init-steps" :current="current" direction="vertical" :status ="status" size="small">
+            <Step title="环境检查" content="配置本地运行环境"></Step>
             <Step title="角色选择" content=""></Step>
-            <Step title="环境配置" content="配置本地运行环境"></Step>
             <Step title="初始化" content=""></Step>
             <Step title="完成" content=""></Step>
           </Steps>
         </Sider>
-        <Content>Content</Content>
+        <Content>
+          <step-centent :stepState.sync="current"></step-centent>
+        </Content>
       </Layout>
     </Layout>
   </Card>
@@ -23,38 +25,37 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import ele from 'electron'
+import StepCentent from '@/components/InitStep/StepCentent.vue'
+import Bus from '@/common/Bus'
 
 @Component({
   name: 'test',
-  components: {}
+  components: { StepCentent }
 })
-export default class Test extends Vue {
+export default class InitStep extends Vue {
   current = 0
   status = 'wait'
-  nextDisable = true
+  nextDisable = false
+  stepState = {
+    current: 0,
+    status: 'wait'
+  }
 
   created () {
-    ele.ipcRenderer.send('git-version')
-    ele.ipcRenderer.on('re-git-version', (e, h) => {
-      if (h !== 'error') {
-        console.log(h)
-      } else {
-        console.log('请先安装Git环境，https://git-scm.com/download')
-        // this.showGitMessage = true
-      }
+    Bus.$on('step-next', () => {
+      this.next()
     })
   }
 
   mounted () {
-    this.next()
-    ele.ipcRenderer.send('git-version')
+    // this.next()
   }
 
   next () {
-    this.nextDisable = true
-    if (this.current === 0) {
-      ele.ipcRenderer.send('git-version')
+    if (this.current < 3) {
+      this.current++
+    } else {
+      this.current = 0
     }
   }
 }
