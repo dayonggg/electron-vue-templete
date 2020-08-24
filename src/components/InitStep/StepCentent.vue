@@ -1,20 +1,40 @@
 <template>
   <div class="step-centent">
-    <p class="txt">{{txt}}</p>
-    <div class="step-centent-item" v-if="stepState === 0">
-    </div>
+    <p class="txt">{{ txt }}</p>
+    <div class="step-centent-item" v-if="stepState === 0"></div>
     <div class="step-centent-item" v-if="stepState === 1">
-      <RadioGroup v-model="role" vertical size="small">
+      <RadioGroup v-model="role" vertical size="small" @on-change="changeRole">
         <Radio label="designer">
-            <span> 策划 - <span class="info">修改和更新课程内容和资源</span></span>
+          <span>
+            策划 - <span class="info">修改和更新课程内容和资源</span></span
+          >
         </Radio>
         <Radio label="teacher">
-            <span> 教研 - <span class="info">用于浏览课程内容和编写关卡提示</span></span>
+          <span>
+            教研 -
+            <span class="info">用于浏览课程内容和编写关卡提示</span></span
+          >
         </Radio>
         <Radio label="other">
-            <span> 其他 - <span class="info">仅限于浏览课程内容</span></span>
+          <span> 其他 - <span class="info">仅限于浏览课程内容</span></span>
         </Radio>
-    </RadioGroup>
+      </RadioGroup>
+    </div>
+    <div class="step-centent-item" v-if="stepState === 2">
+      <RadioGroup v-model="phone">
+        <Radio label="apple">
+          <Icon type="logo-apple"></Icon>
+          <span>Apple</span>
+        </Radio>
+        <Radio label="android">
+          <Icon type="logo-android"></Icon>
+          <span>Android</span>
+        </Radio>
+        <Radio label="windows">
+          <Icon type="logo-windows"></Icon>
+          <span>Windows</span>
+        </Radio>
+      </RadioGroup>
     </div>
     <Spin size="small" fix v-if="spinShow"></Spin>
   </div>
@@ -27,15 +47,14 @@ import Bus from '@/common/Bus'
 
 @Component({
   name: 'step-centent',
-  components: {
-  }
+  components: {}
 })
 export default class StepCentent extends Vue {
   @Prop(Number) stepState!: number;
 
-  spinShow = false
-  txt = '检查Git环境'
-  role = 'other'
+  spinShow = false;
+  txt = '检查Git环境';
+  role = '';
 
   created () {
     ipcRenderer.on('re-git-version', (e, h) => {
@@ -67,6 +86,10 @@ export default class StepCentent extends Vue {
     }
   }
 
+  changeRole () {
+    Bus.$emit('change-role', this.role)
+  }
+
   @Watch('stepState')
   getState (newState: number) {
     this.do(newState)
@@ -75,23 +98,23 @@ export default class StepCentent extends Vue {
 </script>
 
 <style lang="less">
-@import '~@/theme/index.less';
+@import "~@/theme/index.less";
 
 .step-centent {
   width: 100%;
   height: 100%;
   padding: 10px;
-  .txt{
+  .txt {
     padding: 10px 20px 40px;
   }
-  .step-centent-item{
+  .step-centent-item {
     padding: 0px;
-    .ivu-radio-group{
+    .ivu-radio-group {
       margin: 10px 30px;
-      .ivu-radio-wrapper{
+      .ivu-radio-wrapper {
         height: 50px;
         line-height: 50px;
-        .info{
+        .info {
           font-size: @font-size-small;
         }
       }

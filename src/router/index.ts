@@ -22,7 +22,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/initstep',
     name: 'InitStep',
-    component: () => import(/* webpackChunkName: "test" */ '../views/InitStep.vue')
+    component: InitStep
   }
 ]
 

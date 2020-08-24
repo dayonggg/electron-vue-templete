@@ -9,8 +9,9 @@
       <Layout>
         <Sider :width="160" hide-trigger>
           <Steps class="init-steps" :current="current" direction="vertical" :status ="status" size="small">
-            <Step title="环境检查" content="配置本地运行环境"></Step>
+            <Step title="Git检查" content="本地Git运行环境检查"></Step>
             <Step title="角色选择" content=""></Step>
+            <Step title="工作环境" content="配置本地工作目录"></Step>
             <Step title="初始化" content=""></Step>
             <Step title="完成" content=""></Step>
           </Steps>
@@ -35,15 +36,22 @@ import Bus from '@/common/Bus'
 export default class InitStep extends Vue {
   current = 0
   status = 'wait'
-  nextDisable = false
+  nextDisable = true
   stepState = {
     current: 0,
     status: 'wait'
   }
 
+  role = ''
+
   created () {
     Bus.$on('step-next', () => {
       this.next()
+    })
+    Bus.$on('change-role', (role: string) => {
+      console.log(role)
+      this.role = role
+      this.nextDisable = false
     })
   }
 
@@ -52,7 +60,8 @@ export default class InitStep extends Vue {
   }
 
   next () {
-    if (this.current < 3) {
+    this.nextDisable = true
+    if (this.current < 4) {
       this.current++
     } else {
       this.current = 0
@@ -75,7 +84,7 @@ export default class InitStep extends Vue {
     margin-top: 10px;
     border-right: solid 1px @border-color-split;
     .ivu-steps-main {
-      min-height: 100px;
+      min-height: 80px;
     }
   }
 }
