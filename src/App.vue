@@ -6,12 +6,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import Test from '@/common/Test'
 
 @Component({ name: 'App' })
 export default class App extends Vue {
   mounted () {
     console.log('APP')
     this.$router.push({ path: 'InitStep' })
+    const tt = new Test('ssss')
   }
 }
 </script>

@@ -11,9 +11,9 @@ export default {
   },
   data: [
     {
-      label: 'root',
+      label: 'Root',
       roleType: 'root',
-      pwd: 'KKcode2020',
+      pwd: 'KKcode2020', // 选择该身份，需要输入验证码，空为不校验
       info: '包含所有功能，但选择该身份需要输入验证码',
       ruler: {
         editcourse: true, // 是否可编辑课程
@@ -29,7 +29,7 @@ export default {
     {
       label: '策划',
       roleType: 'designer',
-      pwd: '',
+      pwd: '', // 选择该身份，需要输入验证码，空为不校验
       info: '修改和更新课程内容和资源',
       ruler: {
         editcourse: true, // 是否可编辑课程
@@ -45,7 +45,7 @@ export default {
     {
       label: '教研',
       roleType: 'teacher',
-      pwd: '',
+      pwd: '', // 选择该身份，需要输入验证码，空为不校验
       info: '浏览课程内容和编写关卡提示',
       ruler: {
         editcourse: true, // 是否可编辑课程
@@ -61,7 +61,7 @@ export default {
     {
       label: '其他',
       roleType: 'other',
-      pwd: '',
+      pwd: '', // 选择该身份，需要输入验证码，空为不校验
       info: '仅限于浏览课程内容',
       ruler: {
         editcourse: false, // 是否可编辑课程
@@ -78,7 +78,7 @@ export default {
   getRole (roleType: string) {
     this.data.forEach(element => {
       if (element.roleType === roleType) {
-        return element
+        return element.ruler
       }
     })
     return null
