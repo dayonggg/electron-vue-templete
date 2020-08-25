@@ -4,6 +4,18 @@
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component({ name: 'App' })
+export default class App extends Vue {
+  mounted () {
+    console.log('APP')
+    this.$router.push({ path: 'InitStep' })
+  }
+}
+</script>
+
 <style lang="less">
 #app {
   -webkit-font-smoothing: antialiased;

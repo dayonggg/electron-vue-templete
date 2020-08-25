@@ -4,35 +4,20 @@
     <div class="step-centent-item" v-if="stepState === 0"></div>
     <div class="step-centent-item" v-if="stepState === 1">
       <RadioGroup v-model="role" vertical size="small" @on-change="changeRole">
-        <Radio label="designer">
+        <Radio v-for="item in roleData" :key="item.roleType" :label="item.roleType">
           <span>
-            策划 - <span class="info">修改和更新课程内容和资源</span></span
+            {{item.label}} - <span class="info">{{item.info}}</span></span
           >
-        </Radio>
-        <Radio label="teacher">
-          <span>
-            教研 -
-            <span class="info">用于浏览课程内容和编写关卡提示</span></span
-          >
-        </Radio>
-        <Radio label="other">
-          <span> 其他 - <span class="info">仅限于浏览课程内容</span></span>
         </Radio>
       </RadioGroup>
     </div>
     <div class="step-centent-item" v-if="stepState === 2">
       <RadioGroup v-model="phone">
         <Radio label="apple">
-          <Icon type="logo-apple"></Icon>
-          <span>Apple</span>
+          <span>使用已有库</span>
         </Radio>
         <Radio label="android">
-          <Icon type="logo-android"></Icon>
-          <span>Android</span>
-        </Radio>
-        <Radio label="windows">
-          <Icon type="logo-windows"></Icon>
-          <span>Windows</span>
+          <span>克隆库到本地</span>
         </Radio>
       </RadioGroup>
     </div>
@@ -44,6 +29,7 @@
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
 import { ipcRenderer } from 'electron'
 import Bus from '@/common/Bus'
+import RoleData from '@/common/StaticData/RoleData'
 
 @Component({
   name: 'step-centent',
@@ -52,9 +38,10 @@ import Bus from '@/common/Bus'
 export default class StepCentent extends Vue {
   @Prop(Number) stepState!: number;
 
-  spinShow = false;
-  txt = '检查Git环境';
-  role = '';
+  spinShow = false
+  txt = '检查Git环境'
+  roleData = RoleData.data
+  role = ''
 
   created () {
     ipcRenderer.on('re-git-version', (e, h) => {
@@ -84,6 +71,9 @@ export default class StepCentent extends Vue {
     if (index === 1) {
       this.txt = '请选择你的身份'
     }
+    if (index === 2) {
+      this.txt = '请选择工作目录位置'
+    }
   }
 
   changeRole () {
@@ -105,7 +95,7 @@ export default class StepCentent extends Vue {
   height: 100%;
   padding: 10px;
   .txt {
-    padding: 10px 20px 40px;
+    padding: 10px 20px 20px;
   }
   .step-centent-item {
     padding: 0px;
