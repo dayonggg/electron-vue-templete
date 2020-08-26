@@ -77,7 +77,7 @@ export default class InitStep extends Vue {
   width: 900px;
   height: 500px;
   margin: 50px auto;
-  .ivu-card-body{
+  &>.ivu-card-body{
     height: 449px;
   }
   .init-steps {

@@ -3,23 +3,37 @@
     <p class="txt">{{ txt }}</p>
     <div class="step-centent-item" v-if="stepState === 0"></div>
     <div class="step-centent-item" v-if="stepState === 1">
-      <RadioGroup v-model="role" vertical size="small" @on-change="changeRole">
-        <Radio v-for="item in roleData" :key="item.roleType" :label="item.roleType">
+      <RadioGroup class="select-role-panel" v-model="role" vertical size="small" @on-change="changeRole">
+        <Radio
+          v-for="item in roleData"
+          :key="item.roleType"
+          :label="item.roleType"
+        >
           <span>
-            {{item.label}} - <span class="info">{{item.info}}</span></span
+            {{ item.label }} - <span class="info">{{ item.info }}</span></span
           >
         </Radio>
       </RadioGroup>
     </div>
     <div class="step-centent-item" v-if="stepState === 2">
-      <RadioGroup v-model="phone">
-        <Radio label="apple">
-          <span>使用已有库</span>
+      <RadioGroup class="select-repo-panel" v-model="repoValue" size="small" @on-change="changeRepo">
+        <Radio label="local">
+          <span>使用本地库</span>
         </Radio>
-        <Radio label="android">
+        <Radio label="clone">
           <span>克隆库到本地</span>
         </Radio>
       </RadioGroup>
+      <div class="repo-setting-panel" v-if="repoValue === 'local'">
+        <p>
+          type.
+        </p>
+      </div>
+      <div class="repo-setting-panel" v-if="repoValue === 'clone'">
+        <p>
+          Content
+        </p>
+      </div>
     </div>
     <Spin size="small" fix v-if="spinShow"></Spin>
   </div>
@@ -36,12 +50,13 @@ import RoleData from '@/common/StaticData/RoleData'
   components: {}
 })
 export default class StepCentent extends Vue {
-  @Prop(Number) stepState!: number;
+  @Prop(Number) stepState!: number
 
   spinShow = false
   txt = '检查Git环境'
   roleData = RoleData.data
   role = ''
+  repoValue = ''
 
   created () {
     ipcRenderer.on('re-git-version', (e, h) => {
@@ -80,6 +95,10 @@ export default class StepCentent extends Vue {
     Bus.$emit('change-role', this.role)
   }
 
+  changeRepo () {
+    console.log('124')
+  }
+
   @Watch('stepState')
   getState (newState: number) {
     this.do(newState)
@@ -88,7 +107,7 @@ export default class StepCentent extends Vue {
 </script>
 
 <style lang="less">
-@import "~@/theme/index.less";
+@import '~@/theme/index.less';
 
 .step-centent {
   width: 100%;
@@ -99,7 +118,7 @@ export default class StepCentent extends Vue {
   }
   .step-centent-item {
     padding: 0px;
-    .ivu-radio-group {
+    .select-role-panel {
       margin: 10px 30px;
       .ivu-radio-wrapper {
         height: 50px;
@@ -108,6 +127,15 @@ export default class StepCentent extends Vue {
           font-size: @font-size-small;
         }
       }
+    }
+    .select-repo-panel{
+      margin: 10px 30px;
+    }
+    .repo-setting-panel{
+      margin: 0px 24px;
+      padding: 12px;
+      border: @border-width-base @border-color-split @border-style-base;
+      background-color: @background-color-base ;
     }
   }
 }
