@@ -3,7 +3,7 @@
     <p class="txt">{{ txt }}</p>
     <div class="step-centent-item" v-if="stepState === 0"></div>
     <div class="step-centent-item" v-if="stepState === 1">
-      <RadioGroup class="select-role-panel" v-model="role" vertical size="small" @on-change="changeRole">
+      <RadioGroup class="select-role-panel" v-model="role" vertical @on-change="changeRole">
         <Radio
           v-for="item in roleData"
           :key="item.roleType"
@@ -16,7 +16,7 @@
       </RadioGroup>
     </div>
     <div class="step-centent-item" v-if="stepState === 2">
-      <RadioGroup class="select-repo-panel" v-model="repoValue" size="small" @on-change="changeRepo">
+      <RadioGroup class="select-repo-panel" v-model="repoValue" @on-change="changeRepo">
         <Radio label="local">
           <span>使用本地库</span>
         </Radio>
@@ -35,7 +35,7 @@
         </p>
       </div>
     </div>
-    <Spin size="small" fix v-if="spinShow"></Spin>
+    <Spin fix v-if="spinShow"></Spin>
   </div>
 </template>
 

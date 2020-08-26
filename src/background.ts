@@ -56,7 +56,7 @@ function createWindow () {
   }
 
   win.on('ready-to-show', () => {
-    if (win !== null){
+    if (win !== null) {
       win.show()
     }
   })
@@ -114,9 +114,9 @@ if (isDevelopment) {
 }
 
 // Message Event
-ipcMain.on('git-version', (e,datas) => {
+ipcMain.on('git-version', (e, datas) => {
   try {
-    exec(`git --version`, (error: any, stdout: any) => {
+    exec('git --version', (error: any, stdout: any) => {
       if (error) {
         e.sender.send('re-git-version', 'error')
       } else {

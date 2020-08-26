@@ -1,5 +1,5 @@
 <template>
-  <Card class="setting-card" :bordered="false" :dis-hover="true" :shadow="true">
+  <Card class="setting-card" :bordered="true" :dis-hover="true" :shadow="false">
     <p slot="title">
       <Icon type="md-cog" />
       Setting
@@ -7,7 +7,7 @@
     <Button type="primary" slot="extra" @click="next" :disabled="nextDisable">Next</Button>
     <Layout class="fill">
       <Layout>
-        <Sider :width="160" hide-trigger>
+        <Sider :width="180" hide-trigger>
           <Steps class="init-steps" :current="current" direction="vertical" :status ="status" size="small">
             <Step title="Git检查" content="本地Git运行环境检查"></Step>
             <Step title="角色选择" content=""></Step>
@@ -78,7 +78,7 @@ export default class InitStep extends Vue {
   height: 500px;
   margin: 50px auto;
   &>.ivu-card-body{
-    height: 449px;
+    height: 446px;
   }
   .init-steps {
     margin-top: 10px;
