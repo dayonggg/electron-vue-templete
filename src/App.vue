@@ -6,14 +6,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import RoleData from '@/common/StaticData/RoleData'
+// import RoleData from '@/common/StaticData/RoleData'
 
 @Component({ name: 'App' })
 export default class App extends Vue {
   mounted () {
     console.log('APP')
     this.$router.push({ path: 'InitStep' })
-    console.log(RoleData.data)
+    // console.log(RoleData.data)
   }
 }
 </script>

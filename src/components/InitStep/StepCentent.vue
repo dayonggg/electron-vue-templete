@@ -3,7 +3,12 @@
     <p class="txt">{{ txt }}</p>
     <div class="step-centent-item" v-if="stepState === 0"></div>
     <div class="step-centent-item" v-if="stepState === 1">
-      <RadioGroup class="select-role-panel" v-model="role" vertical @on-change="changeRole">
+      <RadioGroup
+        class="select-role-panel"
+        v-model="roleType"
+        vertical
+        @on-change="checkRole"
+      >
         <Radio
           v-for="item in roleData"
           :key="item.roleType"
@@ -14,9 +19,21 @@
           >
         </Radio>
       </RadioGroup>
+      <div class="role-pwd" v-if="roleType === 'root'">
+        <Input
+          v-model="rolePwd"
+          type="password"
+          password
+          @on-change="checkRole"
+        />
+      </div>
     </div>
     <div class="step-centent-item" v-if="stepState === 2">
-      <RadioGroup class="select-repo-panel" v-model="repoValue" @on-change="changeRepo">
+      <RadioGroup
+        class="select-repo-panel"
+        v-model="repoValue"
+        @on-change="changeRepo"
+      >
         <Radio label="local">
           <span>使用本地库</span>
         </Radio>
@@ -25,14 +42,12 @@
         </Radio>
       </RadioGroup>
       <div class="repo-setting-panel" v-if="repoValue === 'local'">
-        <p>
-          type.
-        </p>
+        <div class="repo-setting-cell">
+          <repo-setting :type="repoValue" :role="role"></repo-setting>
+        </div>
       </div>
       <div class="repo-setting-panel" v-if="repoValue === 'clone'">
-        <p>
-          Content
-        </p>
+        <repo-setting :type="repoValue" :role="role"></repo-setting>
       </div>
     </div>
     <Spin fix v-if="spinShow"></Spin>
@@ -43,28 +58,36 @@
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
 import { ipcRenderer } from 'electron'
 import Bus from '@/common/Bus'
-import RoleData from '@/common/StaticData/RoleData'
+import RoleData from '@/common/StaticData/staticRoleData'
+import RepoSetting from '@/components/InitStep/RepoSetting.vue'
 
 @Component({
   name: 'step-centent',
-  components: {}
+  components: {
+    RepoSetting
+  }
 })
 export default class StepCentent extends Vue {
-  @Prop(Number) stepState!: number
+  @Prop(Number) stepState!: number;
 
-  spinShow = false
-  txt = '检查Git环境'
-  roleData = RoleData.data
-  role = ''
-  repoValue = ''
+  spinShow = false;
+  txt = '检查Git环境';
+  roleData = RoleData.data;
+  roleType = '';
+  rolePwd = '';
+  repoValue = '';
+  role = {};
+  localRepoSettings = [];
+  cloneRepoSettings = [];
 
   created () {
+    console.log(this.roleData)
     ipcRenderer.on('re-git-version', (e, h) => {
       this.spinShow = false
       if (h !== 'error') {
         console.log(h)
         this.txt = 'Git环境正常'
-        Bus.$emit('step-next')
+        Bus.$emit('git-sucess')
       } else {
         console.log('请先安装Git环境，https://git-scm.com/download')
         this.txt = '请先安装Git环境，https://git-scm.com/download'
@@ -91,12 +114,32 @@ export default class StepCentent extends Vue {
     }
   }
 
-  changeRole () {
-    Bus.$emit('change-role', this.role)
+  checkRole () {
+    console.log(this.roleType)
+    if (this.roleType !== 'root') {
+      this.rolePwd = ''
+    }
+    Bus.$emit('change-role', {
+      checked: false,
+      roleData: {}
+    })
+    this.role = {}
+    for (const i in this.roleData) {
+      if (
+        this.roleData[i].roleType === this.roleType &&
+        this.roleData[i].pwd === this.rolePwd
+      ) {
+        this.role = this.roleData[i]
+        Bus.$emit('change-role', {
+          checked: true,
+          roleData: this.roleData[i]
+        })
+      }
+    }
   }
 
   changeRepo () {
-    console.log('124')
+    console.log('changeRepo')
   }
 
   @Watch('stepState')
@@ -107,7 +150,7 @@ export default class StepCentent extends Vue {
 </script>
 
 <style lang="less">
-@import '~@/theme/index.less';
+@import "~@/theme/index.less";
 
 .step-centent {
   width: 100%;
@@ -128,14 +171,20 @@ export default class StepCentent extends Vue {
         }
       }
     }
-    .select-repo-panel{
+    .role-pwd {
+      position: absolute;
+      top: 145px;
+      right: 150px;
+      width: 200px;
+    }
+    .select-repo-panel {
       margin: 10px 30px;
     }
-    .repo-setting-panel{
+    .repo-setting-panel {
       margin: 0px 24px;
       padding: 12px;
       border: @border-width-base @border-color-split @border-style-base;
-      background-color: @background-color-base ;
+      background-color: @background-color-base;
     }
   }
 }

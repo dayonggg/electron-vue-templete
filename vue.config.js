@@ -1,4 +1,15 @@
 module.exports = {
+  lintOnSave: process.env.NODE_ENV !== 'production',
+  chainWebpack: config => {
+    config.module
+      .rule('eslint')
+      .use('eslint-loader')
+      .loader('eslint-loader')
+      .tap(options => {
+        options.fix = true
+        return options
+      })
+  },
   css: {
     loaderOptions: {
       // 给 less-loader 传递 Less.js 相关选项

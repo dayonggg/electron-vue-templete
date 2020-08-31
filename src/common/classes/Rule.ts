@@ -1,20 +1,31 @@
 export default class Rule {
-  public ruleData: RuleOptions = {}
+  private ruleData: RuleOptions = {}
+
+  public editcourse = false
+  public saveLesson = false
+  public editLesson = false
+  public updateRepo = false
+  public ftpTool = false
+  public cutmapTool = false
+  public captureTool = false
+  public publishTool = false
+  public testTool = false
+  public exportLesson = false
 
   constructor (options: RuleOptions) {
     this.init(options)
   }
 
   private init (options: RuleOptions): void {
-    this.ruleData.editcourse = options.editcourse || false
-    this.ruleData.saveLesson = options.saveLesson || false
-    this.ruleData.editLesson = options.editLesson || false
-    this.ruleData.updateRepo = options.updateRepo || false
-    this.ruleData.ftpTool = options.ftpTool || false
-    this.ruleData.cutmapTool = options.cutmapTool || false
-    this.ruleData.captureTool = options.captureTool || false
-    this.ruleData.publishTool = options.publishTool || false
-    this.ruleData.testTool = options.testTool || false
-    this.ruleData.exportLesson = options.exportLesson || false
+    this.editcourse = this.ruleData.editcourse = options.editcourse || false
+    this.saveLesson = this.ruleData.saveLesson = options.saveLesson || false
+    this.editLesson = this.ruleData.editLesson = options.editLesson || false
+    this.updateRepo = this.ruleData.updateRepo = options.updateRepo || false
+    this.ftpTool = this.ruleData.ftpTool = options.ftpTool || false
+    this.cutmapTool = this.ruleData.cutmapTool = options.cutmapTool || false
+    this.captureTool = this.ruleData.captureTool = options.captureTool || false
+    this.publishTool = this.ruleData.publishTool = options.publishTool || false
+    this.testTool = this.ruleData.testTool = options.testTool || false
+    this.exportLesson = this.ruleData.exportLesson = options.exportLesson || false
   }
 }

@@ -42,16 +42,17 @@ export default class InitStep extends Vue {
     status: 'wait'
   }
 
-  role = ''
+  roleData = ''
 
   created () {
-    Bus.$on('step-next', () => {
-      this.next()
-    })
-    Bus.$on('change-role', (role: string) => {
-      console.log(role)
-      this.role = role
+    Bus.$on('git-sucess', () => {
+      // this.next()
       this.nextDisable = false
+    })
+    Bus.$on('change-role', (data: any) => {
+      console.log(data)
+      this.roleData = data.roleData
+      this.nextDisable = !data.checked
     })
   }
 
