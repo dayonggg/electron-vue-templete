@@ -63,3 +63,26 @@
 .ivu-spin-fix {
   background-color: @span-background;
 }
+
+// Button
+.ivu-btn {
+  &.ivu-btn-default:hover {
+    background-color: @btn-default-bg;
+    border-color: @white;
+    color: @white;
+  }
+}
+
+// Input-button-group
+.input-button-group {
+  display: flex;
+  flex-flow: row;
+  .input-item {
+    flex: 1;
+  }
+  .button-item {
+    width: 80px;
+    text-align: right;
+    padding-left: 15px;
+  }
+}

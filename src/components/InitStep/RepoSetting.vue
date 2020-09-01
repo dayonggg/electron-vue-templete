@@ -1,6 +1,18 @@
 <template>
   <div class="repo-setting">
-    <div class="repo-setting-local" v-if="type === 'local'">local</div>
+    <div class="repo-setting-local" v-if="type === 'local'">
+      <div class="repo-setting-item" v-for="item in repos" :key="item.name">
+        <p>{{item.name + ':'}}</p>
+        <div class="input-button-group">
+          <div class="input-item">
+            <Input />
+          </div>
+          <div class="button-item" @click="selectLocalPath(item)">
+            <Button long>浏览</Button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="repo-setting-clone" v-if="type === 'clone'">clone</div>
   </div>
 </template>
@@ -15,7 +27,7 @@ import { staticRepoSetting } from '@/common/StaticData/staticRepoSetting'
 })
 export default class RepoSetting extends Vue {
   @Prop() type!: string
-  @Prop() role!: any
+  @Prop() role!: RoleData
 
   repos = []
 
@@ -37,9 +49,25 @@ export default class RepoSetting extends Vue {
   }
 
   // mounted () {}
+
+  selectLocalPath (item: any) {
+    console.log(item)
+  }
 }
 </script>
 
 <style lang="less">
 @import "~@/theme/index.less";
+
+.repo-setting {
+  padding: 10px 0px;
+  height: 220px;
+  .repo-setting-local {
+    .repo-setting-item {
+      .input-button-group {
+        padding: 1px 0px 15px 0px;
+      }
+    }
+  }
+}
 </style>

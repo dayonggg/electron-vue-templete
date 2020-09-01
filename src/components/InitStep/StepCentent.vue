@@ -158,6 +158,7 @@ export default class StepCentent extends Vue {
   padding: 10px;
   .txt {
     padding: 10px 20px 20px;
+    font-size: @font-size-large;
   }
   .step-centent-item {
     padding: 0px;
