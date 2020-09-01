@@ -21,13 +21,13 @@ module.exports = {
   devServer: {
     open: false,
     host: 'localhost',
-    port: 8091,
+    port: 7000,
     https: false,
     hotOnly: false,
     // http 代理配置
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8091/api',
+        target: 'http://127.0.0.1:7000/api',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

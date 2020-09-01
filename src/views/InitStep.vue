@@ -43,6 +43,7 @@ export default class InitStep extends Vue {
   }
 
   roleData = ''
+  repoSettinig = {}
 
   created () {
     Bus.$on('git-sucess', () => {
@@ -50,9 +51,17 @@ export default class InitStep extends Vue {
       this.nextDisable = false
     })
     Bus.$on('change-role', (data: any) => {
-      console.log(data)
       this.roleData = data.roleData
       this.nextDisable = !data.checked
+    })
+    Bus.$on('repo-setting', (data: any) => {
+      // console.log(data)
+      if (data.state) {
+        this.repoSettinig = data
+        this.nextDisable = false
+      } else {
+        this.nextDisable = true
+      }
     })
   }
 
@@ -67,6 +76,7 @@ export default class InitStep extends Vue {
     } else {
       this.current = 0
     }
+    console.log(this.current)
   }
 }
 </script>

@@ -18,7 +18,7 @@ protocol.registerSchemesAsPrivileged([
 console.log(app.getPath('userData'))
 httpServer.createServer({
   root: app.getPath('userData'),
-  port: 9092
+  port: '7001'
 })
 function createWindow () {
   // Create the browser window.
