@@ -159,7 +159,7 @@ export default class RepoSetting extends Vue {
 @import '~@/theme/index.less';
 
 .repo-setting {
-  padding: 12px 0px;
+  padding: 12px;
   height: 282px;
   .repo-setting-item {
     .input-button-group {
